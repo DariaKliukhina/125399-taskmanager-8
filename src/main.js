@@ -1,38 +1,74 @@
 'use strict';
 const filter = document.querySelector(`.main__filter`);
-const arr = [`all`, `overdue`, `today`, `favorites`, `repeating`, `tags`, `archive`];
+const allFilters = [
+  {
+    type: `all`,
+    count: 3,
+    checked: true,
+    disabled: false
+  },
+  {
+    type: `overdue`,
+    count: 5,
+    checked: false,
+    disabled: false
+  },
+  {
+    type: `today`,
+    count: 3,
+    checked: false,
+    disabled: false
+  },
+  {
+    type: `favorites`,
+    count: 2,
+    checked: true,
+    disabled: false
+  },
+  {
+    type: `repeating`,
+    count: 7,
+    checked: false,
+    disabled: false
+  },
+  {
+    type: `tags`,
+    count: 2,
+    checked: false,
+    disabled: true
+  },
+  {
+    type: `archive`,
+    count: 3,
+    checked: false,
+    disabled: false
+  }
+];
 
-const randomNum = () => {
-  return Math.floor(Math.random() * arr.length);
-};
+let element;
 
-// Вариант 1
 const filterRender = (id, count, checked = false, disabled = false) =>{
   const input = `<input type="radio" id="filter__${id}" class="filter__input visually-hidden" ${disabled && `disabled`} name="filter" ${checked && `checked`}/>`;
-  const label = `<label for="filter__${id}" class="filter__label">${id}<span class="filter__${id}-count">${count}</span></label>`;
-  const div = document.createElement(`div`);
-  div.innerHTML = input + label;
-  filter.appendChild(div);
+  const label = `<label for="filter__${id}" class="filter__label">${id} <span class="filter__${id}-count">${count}</span></label>`;
+
+  element = `${input} ${label}`;
+  return element;
 };
 
-// Вариант 2
-// const filterRender = (id, count, checked = false, disabled = false) =>{
-//   const label = document.createElement(`label`);
-//   const input = document.createElement(`input`);
-//   const innerLabel = `${id}<span class="filter__${id}-count">${count}</span>`;
-//
-//   label.setAttribute(`for`, `filter__${id}`);
-//   label.classList.add(`filter__label`);
-//   input.setAttribute(`type`, `radio`);
-//   input.setAttribute(`checked`, `${checked ? "checked" : ""}`);
-//   input.setAttribute(`id`, `filter__${id}`);
-//   input.classList.add(`filter__input`, `visually-hidden`);
-//   input.setAttribute(`name`, `filter`);
-//   label.innerHTML = innerLabel;
-//   filter.appendChild(input);
-//   filter.appendChild(label);
-// };
+const addElement = (parent, currentElement) => {
+  parent.insertAdjacentHTML(`beforeEnd`, currentElement);
+};
 
-arr.forEach(function (el) {
-  filterRender(el, randomNum());
-});
+const createFilterElement = (parent, id, count, checked, disabled) => {
+  let currentFilter = filterRender(id, count, checked, disabled);
+  addElement(parent, currentFilter);
+};
+
+const createAllFilters = (array) => {
+  array.forEach(function (el) {
+    createFilterElement(filter, el.type, el.count, el.checked, el.disabled);
+  });
+};
+
+createAllFilters(allFilters);
+
