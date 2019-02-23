@@ -68,7 +68,7 @@ const filterRender = (id, count, checked = false, disabled = false) =>{
   const input = `<input type="radio" id="filter__${id}" class="filter__input visually-hidden" ${disabled && `disabled`} name="filter" ${checked && `checked`}/>`;
   const label = `<label for="filter__${id}" class="filter__label">${id} <span class="filter__${id}-count">${count}</span></label>`;
 
-  let filterElement = `${input} ${label}`;
+  const filterElement = `${input} ${label}`;
   return filterElement;
 };
 
@@ -77,22 +77,20 @@ const addElement = (parent, currentElement) => {
 };
 
 const createFilterElement = (parent, id, count, checked, disabled) => {
-  let currentFilter = filterRender(id, count, checked, disabled);
+  const currentFilter = filterRender(id, count, checked, disabled);
   addElement(parent, currentFilter);
 };
 
 const createAllFilters = (array) => {
-  for (let el of array) {
+  for (const el of array) {
     createFilterElement(filter, el.type, el.count, el.checked, el.disabled);
   }
 };
 
 createAllFilters(allFilters);
 
-let cardElement;
-
 const cardRender = (taskData) => {
-  cardElement = `
+  const cardElement = `
   <article class="card card--${taskData.color} ${taskData.type ? `card--${taskData.type}` : ``}">
     <form class="card__form" method="get">
       <div class="card__inner">
@@ -390,12 +388,12 @@ const createCardData = (count, currentData) => {
 
 
 const createCardElement = (parent, data) => {
-  let currentCard = cardRender(data);
+  const currentCard = cardRender(data);
   addElement(parent, currentCard);
 };
 
 const createAllCards = (array) => {
-  for (let el of array) {
+  for (const el of array) {
     createCardElement(boardTasks, el);
   }
 };
@@ -409,14 +407,14 @@ const clearBlock = (block) => {
 
 const createNewCards = (count) => {
   if (typeof (count) === `number`) {
-    let currentDataArray = createCardData(count, dataStorage);
+    const currentDataArray = createCardData(count, dataStorage);
     createAllCards(currentDataArray);
   }
 };
 
-for (let element of filterLabel) {
+for (const element of filterLabel) {
   element.addEventListener(`click`, function (e) {
-    let currentCount = Number(e.target.querySelector(`span`).textContent);
+    const currentCount = Number(e.target.querySelector(`span`).textContent);
     clearBlock(boardTasks);
 
     createNewCards(currentCount);
