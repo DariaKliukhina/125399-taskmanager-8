@@ -44,6 +44,18 @@ const allFilters = [
   }
 ];
 
+const dataStorage = {
+  types: [`repeat`, `deadline`, ``],
+  colors: [`black`, `pink`, `yellow`, `blue`],
+  descriptions: [
+    `Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?`,
+    `Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.`,
+    `Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?`,
+  ],
+};
+
+const startCardsCount = 7;
+
 const getRandomElement = (array) => {
   return array[Math.floor(Math.random() * array.length)];
 };
@@ -51,13 +63,12 @@ const getRandomElement = (array) => {
 
 const filter = document.querySelector(`.main__filter`);
 const boardTasks = document.querySelector(`.board__tasks`);
-let filterElement;
 
 const filterRender = (id, count, checked = false, disabled = false) =>{
   const input = `<input type="radio" id="filter__${id}" class="filter__input visually-hidden" ${disabled && `disabled`} name="filter" ${checked && `checked`}/>`;
   const label = `<label for="filter__${id}" class="filter__label">${id} <span class="filter__${id}-count">${count}</span></label>`;
 
-  filterElement = `${input} ${label}`;
+  let filterElement = `${input} ${label}`;
   return filterElement;
 };
 
@@ -71,9 +82,9 @@ const createFilterElement = (parent, id, count, checked, disabled) => {
 };
 
 const createAllFilters = (array) => {
-  array.forEach(function (el) {
+  for (let el of array) {
     createFilterElement(filter, el.type, el.count, el.checked, el.disabled);
-  });
+  }
 };
 
 createAllFilters(allFilters);
@@ -363,23 +374,15 @@ const cardRender = (taskData) => {
   return cardElement;
 };
 
-const createCardData = (count) => {
-  const dataStorage = {
-    types: [`repeat`, `deadline`, ``],
-    colors: [`black`, `pink`, `yellow`, `blue`],
-    descriptions: [
-      `Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?`,
-      `Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.`,
-      `Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?`,
-    ],
-  };
+
+const createCardData = (count, currentData) => {
   const data = [];
 
   for (let i = 0; i < count; i++) {
     data.push({
-      type: getRandomElement(dataStorage.types),
-      color: getRandomElement(dataStorage.colors),
-      description: getRandomElement(dataStorage.descriptions),
+      type: getRandomElement(currentData.types),
+      color: getRandomElement(currentData.colors),
+      description: getRandomElement(currentData.descriptions),
     });
   }
   return data;
@@ -392,9 +395,9 @@ const createCardElement = (parent, data) => {
 };
 
 const createAllCards = (array) => {
-  array.forEach(function (el) {
+  for (let el of array) {
     createCardElement(boardTasks, el);
-  });
+  }
 };
 
 const filterLabel = document.querySelectorAll(`.filter__label`);
@@ -403,15 +406,21 @@ const clearBlock = (block) => {
   block.innerHTML = ``;
 };
 
-let currentCount;
 
-filterLabel.forEach(function (element) {
-  element.addEventListener(`click`, function (e) {
-    currentCount = e.target.querySelector(`span`).textContent;
-    clearBlock(boardTasks);
-    let currentDataArray = createCardData(currentCount);
+const createNewCards = (count) => {
+  if (typeof (count) === `number`) {
+    let currentDataArray = createCardData(count, dataStorage);
     createAllCards(currentDataArray);
+  }
+};
+
+for (let element of filterLabel) {
+  element.addEventListener(`click`, function (e) {
+    let currentCount = Number(e.target.querySelector(`span`).textContent);
+    clearBlock(boardTasks);
+
+    createNewCards(currentCount);
   });
-});
+}
 
-
+createNewCards(startCardsCount);
