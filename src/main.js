@@ -68,7 +68,7 @@ const clearBlock = (block) => {
 
 const createNewCards = (count) => {
   if (typeof (count) === `number`) {
-    const currentDataArray = createCardData(count,task);
+    const currentDataArray = createCardData(count, task);
     createAllCards(currentDataArray);
   }
 };
