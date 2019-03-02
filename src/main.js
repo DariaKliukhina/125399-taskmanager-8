@@ -1,60 +1,6 @@
 import makeFilter from './make-filter.js';
 import makeCard from './make-card.js';
-
-const allFilters = [
-  {
-    type: `all`,
-    count: 3,
-    checked: true,
-    disabled: false
-  },
-  {
-    type: `overdue`,
-    count: 5,
-    checked: false,
-    disabled: false
-  },
-  {
-    type: `today`,
-    count: 3,
-    checked: false,
-    disabled: false
-  },
-  {
-    type: `favorites`,
-    count: 2,
-    checked: true,
-    disabled: false
-  },
-  {
-    type: `repeating`,
-    count: 7,
-    checked: false,
-    disabled: false
-  },
-  {
-    type: `tags`,
-    count: 2,
-    checked: false,
-    disabled: true
-  },
-  {
-    type: `archive`,
-    count: 3,
-    checked: false,
-    disabled: false
-  }
-];
-
-const dataStorage = {
-  types: [`repeat`, `deadline`, ``],
-  colors: [`black`, `pink`, `yellow`, `blue`],
-  descriptions: [
-    `Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?`,
-    `Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.`,
-    `Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?`,
-  ],
-};
+import {task, allFilters} from './data.js';
 
 const startCardsCount = 7;
 
@@ -83,17 +29,22 @@ const createAllFilters = (array) => {
 
 createAllFilters(allFilters);
 
-const createCardData = (count, currentData) => {
-  const data = [];
+const createCardData = (count, data) => {
+  const newTasks = [];
 
   for (let i = 0; i < count; i++) {
-    data.push({
-      type: getRandomElement(currentData.types),
-      color: getRandomElement(currentData.colors),
-      description: getRandomElement(currentData.descriptions),
+    newTasks.push({
+      title: getRandomElement(data.title),
+      tags: data.getHashtags(),
+      picture: data.getPicture(),
+      repeatingDays: data.repeatingDays,
+      type: getRandomElement(data.type),
+      color: getRandomElement(data.color),
+      isFavorite: data.isFavorite,
+      isDone: data.isDone,
     });
   }
-  return data;
+  return newTasks;
 };
 
 
@@ -117,7 +68,7 @@ const clearBlock = (block) => {
 
 const createNewCards = (count) => {
   if (typeof (count) === `number`) {
-    const currentDataArray = createCardData(count, dataStorage);
+    const currentDataArray = createCardData(count,task);
     createAllCards(currentDataArray);
   }
 };
