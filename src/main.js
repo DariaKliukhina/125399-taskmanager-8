@@ -43,6 +43,7 @@ const createCardData = (count, data) => {
       isFavorite: data.isFavorite,
       isDone: data.isDone,
     });
+    console.log(data.repeatingDays);
   }
   return newTasks;
 };

@@ -1,6 +1,6 @@
 export default (taskData) => {
   return `
-  <article class="card card--${taskData.color} ${taskData.type ? `card--${taskData.type}` : ``}">
+  <article class="card card--${taskData.color} ${taskData.type ? `card--${taskData.type}` : ``} ">
     <form class="card__form" method="get">
       <div class="card__inner">
         <div class="card__control">

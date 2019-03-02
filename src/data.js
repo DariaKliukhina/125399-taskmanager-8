@@ -20,7 +20,7 @@ const allFilters = [
   {
     type: `favorites`,
     count: 2,
-    checked: true,
+    checked: false,
     disabled: false
   },
   {
@@ -47,6 +47,11 @@ const getRandomNum = (count) => {
   return Math.floor(Math.random() * count);
 };
 
+const getBoolean = () => {
+  const boolean = [true, false];
+  return boolean[getRandomNum(2)];
+};
+
 const tagsCountMax = 3;
 
 const task = {
@@ -55,7 +60,7 @@ const task = {
     `Сделать домашку`,
     `Пройти интенсив на соточку`,
   ],
-  dueDate: Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000,
+  dueDate: Date.now() + 1 + Math.random() * 7 * 24 * 60 * 60 * 1000,
   tags: new Set([
     `homework`,
     `theory`,
@@ -70,18 +75,19 @@ const task = {
     return currentPictureName;
   },
   repeatingDays: {
-    'mo': true,
-    'tu': false,
-    'we': true,
-    'th': false,
-    'fr': false,
-    'sa': true,
-    'su': false,
+    'mo': getBoolean(),
+    'tu': getBoolean(),
+    'we': getBoolean(),
+    'th': getBoolean(),
+    'fr': getBoolean(),
+    'sa': getBoolean(),
+    'su': getBoolean(),
   },
   color: [`black`, `yellow`, `blue`, `green`, `pink`],
   isFavorite: false,
   isDone: false,
   type: [`repeat`, `deadline`, ``],
+  deadline: getBoolean(),
   getHashtags() {
     let tags = [];
     const setArrayTags = [...this.tags];
