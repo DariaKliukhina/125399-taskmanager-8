@@ -2,7 +2,7 @@ const allFilters = [
   {
     type: `all`,
     count: 3,
-    checked: true,
+    checked: false,
     disabled: false
   },
   {
@@ -26,7 +26,7 @@ const allFilters = [
   {
     type: `repeating`,
     count: 7,
-    checked: false,
+    checked: true,
     disabled: false
   },
   {
@@ -47,21 +47,38 @@ const getRandomNum = (count) => {
   return Math.floor(Math.random() * count);
 };
 
+const getRandomElement = (array) => {
+  return array[Math.floor(Math.random() * array.length)];
+};
+
 const getBoolean = () => {
   const boolean = [true, false];
   return boolean[getRandomNum(2)];
 };
 
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+}
+
 const tagsCountMax = 3;
 
 const task = {
-  title: [
+  titles: [
     `Изучить теорию`,
     `Сделать домашку`,
     `Пройти интенсив на соточку`,
   ],
+  get title() {
+    return getRandomElement(this.titles);
+  },
   dueDate: Date.now() + 1 + Math.random() * 7 * 24 * 60 * 60 * 1000,
-  tags: new Set([
+  tagsSet: new Set([
     `homework`,
     `theory`,
     `practice`,
@@ -83,35 +100,52 @@ const task = {
     'sa': getBoolean(),
     'su': getBoolean(),
   },
-  color: [`black`, `yellow`, `blue`, `green`, `pink`],
-  isFavorite: false,
-  isDone: false,
-  type: [`repeat`, `deadline`, ``],
+  colors: [`black`, `yellow`, `blue`, `green`, `pink`],
+  get color() {
+    return getRandomElement(this.colors);
+  },
+  isFavorite: getBoolean(),
+  isDone: getBoolean(),
+  types: [`repeat`, `deadline`, ``],
+  get type() {
+    return getRandomElement(this.types);
+  },
   deadline: getBoolean(),
-  getHashtags() {
-    let tags = [];
-    const setArrayTags = [...this.tags];
+  get tags() {
+    const tags = [...this.tagsSet];
     const tagsCount = getRandomNum(tagsCountMax);
-    for (let i = 0; i <= tagsCount; i++) {
-      const newTagsElement = setArrayTags[getRandomNum(setArrayTags.length)];
-      tags.push(newTagsElement);
-    }
-    return tags.map((it) => `<span class="card__hashtag-inner">
-      <input
-        type="hidden"
-        name="hashtag"
-        value="repeat"
-        class="card__hashtag-hidden-input"
-      />
-      <button type="button" class="card__hashtag-name">
-        #${it}
-      </button>
-      <button type="button" class="card__hashtag-delete">
-        delete
-      </button>
-    </span>`).join(``);
+    shuffleArray(tags);
+    return tags.slice(0, tagsCount);
   }
 };
 
+const createCardData = (count, data) => {
+  const newTasks = [];
 
-export {task, allFilters};
+  for (let i = 0; i < count; i++) {
+    newTasks.push({
+      title: data.title,
+      tags: data.tags,
+      picture: data.getPicture(),
+      repeatingDays: data.repeatingDays,
+      type: data.type,
+      color: data.color,
+      isFavorite: data.isFavorite,
+      isDone: data.isDone,
+    });
+  }
+  return newTasks;
+};
+
+const generateData = () => {
+  const cardData = {};
+  for (const el of allFilters) {
+    const currentType = el.type;
+    const currentData = createCardData(el.count, task);
+    cardData[`${currentType}`] = currentData;
+  }
+  return cardData;
+};
+
+const cards = generateData();
+export {cards, allFilters};
