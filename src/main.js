@@ -12,12 +12,12 @@ const addElement = (parent, currentElement) => {
 };
 
 const createFilterElement = (parent, id, count, checked, disabled) => {
-  let currentFilter = makeFilter(id, count, checked, disabled);
+  const currentFilter = makeFilter(id, count, checked, disabled);
   addElement(parent, currentFilter);
 };
 
 const createAllFilters = (array) => {
-  for (let el of array) {
+  for (const el of array) {
     createFilterElement(filter, el.type, el.count, el.checked, el.disabled);
   }
 };
@@ -25,7 +25,7 @@ const createAllFilters = (array) => {
 createAllFilters(allFilters);
 
 const createCardElement = (parent, data) => {
-  let currentCard = makeCard(data);
+  const currentCard = makeCard(data);
   addElement(parent, currentCard);
 };
 
