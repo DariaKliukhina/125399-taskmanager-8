@@ -1,6 +1,6 @@
 export default (taskData) => {
-  const cardElement = `
-  <article class="card card--${taskData.color} ${taskData.type ? `card--${taskData.type}` : ``}">
+  return `
+  <article class="card card--${taskData.color} ${taskData.type ? `card--${taskData.type}` : ``} ">
     <form class="card__form" method="get">
       <div class="card__inner">
         <div class="card__control">
@@ -28,7 +28,7 @@ export default (taskData) => {
               class="card__text"
               placeholder="Start typing your text here..."
               name="text"
-            >${taskData.description}</textarea>
+            >${taskData.title}</textarea>
           </label>
         </div>
         <div class="card__settings">
@@ -138,49 +138,22 @@ export default (taskData) => {
             </div>
             <div class="card__hashtag">
               <div class="card__hashtag-list">
-                <span class="card__hashtag-inner">
-                  <input
-                    type="hidden"
-                    name="hashtag"
-                    value="repeat"
-                    class="card__hashtag-hidden-input"
-                  />
-                  <button type="button" class="card__hashtag-name">
-                    #repeat
-                  </button>
-                  <button type="button" class="card__hashtag-delete">
-                    delete
-                  </button>
-                </span>
-                <span class="card__hashtag-inner">
-                  <input
-                    type="hidden"
-                    name="hashtag"
-                    value="repeat"
-                    class="card__hashtag-hidden-input"
-                  />
-                  <button type="button" class="card__hashtag-name">
-                    #cinema
-                  </button>
-                  <button type="button" class="card__hashtag-delete">
-                    delete
-                  </button>
-                </span>
-                <span class="card__hashtag-inner">
-                  <input
-                    type="hidden"
-                    name="hashtag"
-                    value="repeat"
-                    class="card__hashtag-hidden-input"
-                  />
-                  <button type="button" class="card__hashtag-name">
-                    #entertaiment
-                  </button>
-                  <button type="button" class="card__hashtag-delete">
-                    delete
-                  </button>
-                </span>
+                 ${taskData.tags.map((it) => `<span class="card__hashtag-inner">
+                <input
+                  type="hidden"
+                  name="hashtag"
+                  value="repeat"
+                  class="card__hashtag-hidden-input"
+                />
+                <button type="button" class="card__hashtag-name">
+                  #${it}
+                </button>
+                <button type="button" class="card__hashtag-delete">
+                  delete
+                </button>
+              </span>`).join(``)}
               </div>
+             
               <label>
                 <input
                   type="text"
@@ -191,14 +164,14 @@ export default (taskData) => {
               </label>
             </div>
           </div>
-          <label class="card__img-wrap card__img-wrap--empty">
+          <label class="card__img-wrap ${taskData.picture ? `` : `card__img-wrap--empty`}">
             <input
               type="file"
               class="card__img-input visually-hidden"
               name="img"
             />
             <img
-              src="img/add-photo.svg"
+              src="${taskData.picture}"
               alt="task picture"
               class="card__img"
             />
@@ -277,7 +250,5 @@ export default (taskData) => {
       </div>
     </form>
   </article>`;
-
-  return cardElement;
 };
 
