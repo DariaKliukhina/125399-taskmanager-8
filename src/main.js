@@ -1,9 +1,10 @@
 import makeFilter from './make-filter.js';
-import makeCard from './make-card.js';
 import {cards, allFilters} from './data.js';
+import Task from './task.js';
 
 const filter = document.querySelector(`.main__filter`);
-const boardTasks = document.querySelector(`.board__tasks`);
+const tasksContainer = document.querySelector(`.board__tasks`);
+const filterInput = document.querySelectorAll(`.filter__input`);
 
 const startFilter = cards.repeating;
 
@@ -24,23 +25,24 @@ const createAllFilters = (array) => {
 
 createAllFilters(allFilters);
 
+const addTask = (parent, currentElement) => {
+  parent.appendChild(currentElement.render());
+};
+
 const createCardElement = (parent, data) => {
-  const currentCard = makeCard(data);
-  addElement(parent, currentCard);
+  const taskComponent = new Task(data);
+  addTask(parent, taskComponent);
 };
 
 const createAllCards = (array) => {
   for (const el of array) {
-    createCardElement(boardTasks, el);
+    createCardElement(tasksContainer, el);
   }
 };
 
 const clearBlock = (block) => {
   block.innerHTML = ``;
 };
-
-const filterInput = document.querySelectorAll(`.filter__input`);
-
 
 const getCurrentFilter = (target) => {
   const currentId = target.getAttribute(`id`);
@@ -55,7 +57,7 @@ const renderCards = (target, data) => {
 for (const el of filterInput) {
   el.addEventListener(`change`, function (e) {
     const target = e.target;
-    clearBlock(boardTasks);
+    clearBlock(tasksContainer);
     renderCards(target, cards);
   });
 }
