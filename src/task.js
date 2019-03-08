@@ -23,6 +23,17 @@ class Task {
   _isRepeated() {
     return Object.values(this._repeatingDays).some((it) => it === true);
   }
+  _onEditButtonClick() {
+    typeof this._onEdit === `function` && this._onEdit();
+  }
+
+  get element() {
+    return this._element;
+  }
+
+  set onEdit(fn) {
+    this._onEdit = fn;
+  }
 
   get template() {
     return `
@@ -278,10 +289,26 @@ class Task {
   </article>`.trim();
   }
 
+  bind() {
+    this._element.querySelector(`.card__btn--edit`)
+      .addEventListener(`click`, this._onEditButtonClick.bind(this));
+  }
+
   render() {
     this._element = createElement(this.template);
+    this.bind();
     return this._element;
   }
+
+  unbind() {
+    // Удаление обработчиков
+  }
+
+  unrender() {
+    this.unbind();
+    this._element = null;
+  }
+
 }
 
 export default Task;

@@ -1,10 +1,10 @@
 import makeFilter from './make-filter.js';
 import {cards, allFilters} from './data.js';
 import Task from './task.js';
+import TaskEdit from "./task-edit.js";
 
 const filter = document.querySelector(`.main__filter`);
 const tasksContainer = document.querySelector(`.board__tasks`);
-const filterInput = document.querySelectorAll(`.filter__input`);
 
 const startFilter = cards.repeating;
 
@@ -31,6 +31,19 @@ const addTask = (parent, currentElement) => {
 
 const createCardElement = (parent, data) => {
   const taskComponent = new Task(data);
+  const editTaskComponent = new TaskEdit(data);
+  taskComponent.onEdit = () => {
+    editTaskComponent.render();
+    parent.replaceChild(editTaskComponent.element, taskComponent.element);
+    taskComponent.unrender();
+  };
+
+  editTaskComponent.onSubmit = () => {
+    taskComponent.render();
+    parent.replaceChild(taskComponent.element, editTaskComponent.element);
+    editTaskComponent.unrender();
+  };
+
   addTask(parent, taskComponent);
 };
 
@@ -43,6 +56,8 @@ const createAllCards = (array) => {
 const clearBlock = (block) => {
   block.innerHTML = ``;
 };
+
+const filterInput = document.querySelectorAll(`.filter__input`);
 
 const getCurrentFilter = (target) => {
   const currentId = target.getAttribute(`id`);

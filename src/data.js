@@ -105,12 +105,8 @@ const task = {
     return getRandomElement(this.colors);
   },
   isFavorite: getBoolean(),
+  isDeadline: getBoolean(),
   isDone: getBoolean(),
-  types: [`repeat`, `deadline`, ``],
-  get type() {
-    return getRandomElement(this.types);
-  },
-  deadline: getBoolean(),
   get tags() {
     const tags = [...this.tagsSet];
     const tagsCount = getRandomNum(tagsCountMax);
@@ -128,7 +124,6 @@ const createCardData = (count, data) => {
       tags: data.tags,
       picture: data.getPicture(),
       repeatingDays: data.repeatingDays,
-      type: data.type,
       color: data.color,
       isFavorite: data.isFavorite,
       isDone: data.isDone,
