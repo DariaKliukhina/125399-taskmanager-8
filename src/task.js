@@ -1,4 +1,4 @@
-import createElement from './create-element.js';
+import {createElement} from './create-element.js';
 
 class Task {
   constructor(data) {
@@ -13,6 +13,11 @@ class Task {
     this._isDone = data.isDone;
     this._isDeadline = data.isDeadline;
     this._dueDate = data.dueDate;
+
+    this._element = null;
+    this._state = {
+      isEdit: false
+    };
   }
 
   _isRepeated() {
