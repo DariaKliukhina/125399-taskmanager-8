@@ -20,7 +20,7 @@ class Task {
       isDeadline: false
     };
 
-    // this._onEditButtonClick = this._onEditButtonClick.bind(this);
+    this._onEditButtonClick = this._onEditButtonClick.bind(this);
   }
 
   _isRepeated() {
@@ -106,15 +106,9 @@ class Task {
     </form>
   </article>`.trim();
   }
-
-  // bind() {
-  //   this._element.querySelector(`.card__btn--edit`)
-  //     .addEventListener(`click`, this._onEditButtonClick);
-  // }
-
   bind() {
     this._element.querySelector(`.card__btn--edit`)
-      .addEventListener(`click`, this._onEditButtonClick.bind(this));
+      .addEventListener(`click`, this._onEditButtonClick);
   }
 
   render() {
@@ -123,13 +117,13 @@ class Task {
     return this._element;
   }
 
-  // unbind() {
-  //   this._element.querySelector(`.card__btn--edit`)
-  //     .removeEventListener(`click`, this._onEditButtonClick);
-  // }
+  unbind() {
+    this._element.querySelector(`.card__btn--edit`)
+      .removeEventListener(`click`, this._onEditButtonClick);
+  }
 
   unrender() {
-    // this.unbind();
+    this.unbind();
     this._element = null;
   }
 
