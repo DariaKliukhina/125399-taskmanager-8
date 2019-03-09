@@ -8,21 +8,19 @@ class TaskEdit {
     this._picture = data.picture;
     this._repeatingDays = data.repeatingDays;
     this._color = data.color;
-    // this._type = data.type;
-    this._isFavorite = data.isFavorite;
-    this._isDone = data.isDone;
-
     this._element = null;
     this._onSubmit = null;
+
+    // this._onSubmitButtonClick = this._onSubmitButtonClick.bind(this);
   }
 
-  _onSubmitButtonClick(evt) {
-    evt.preventDefault();
-    typeof this._onSubmit === `function` && this._onSubmit();
+  __onSubmitButtonClick() {
+    if (typeof this._onSubmit === `function`) {
+      this._onSubmit();
+    }
   }
-
   _isRepeated() {
-    return Object.values(this._repeatingDays).some(it => it === true);
+    return Object.values(this._repeatingDays).some((it) => it === true);
   }
 
   set onSubmit(fn) {
@@ -105,7 +103,7 @@ class TaskEdit {
     
               <div class="card__hashtag">
                 <div class="card__hashtag-list">
-                  ${(Array.from(this._tags).map(tag => (`
+                  ${(Array.from(this._tags).map((tag) => (`
                     <span class="card__hashtag-inner">
                       <input type="hidden" name="hashtag" value="${tag}" class="card__hashtag-hidden-input" />
                       <button type="button" class="card__hashtag-name">#${tag}</button>
@@ -165,19 +163,23 @@ class TaskEdit {
   }
 
   unrender() {
-    this.unbind();
+    // this.unbind();
     this._element = null;
   }
 
+  // bind() {
+  //   this._element.querySelector(`.card__form`)
+  //     .addEventListener(`submit`, this._onSubmitButtonClick);
+  // }
+  //
+  // unbind() {
+  //   this._element.querySelector(`.card__btn--edit`)
+  //     .removeEventListener(`click`, this._onSubmitButtonClick);
+  // }
   bind() {
     this._element.querySelector(`.card__form`)
       .addEventListener(`submit`, this._onSubmitButtonClick.bind(this));
   }
-
-  unbind() {
-    // Удаление обработчиков
-  }
-
 }
 
 export default TaskEdit;
