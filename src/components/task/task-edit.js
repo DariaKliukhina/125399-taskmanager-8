@@ -1,4 +1,4 @@
-import TaskComponent from './../component/component.js';
+import TaskComponent from '../component.js';
 
 class TaskEdit extends TaskComponent {
   constructor(data) {
@@ -151,12 +151,12 @@ class TaskEdit extends TaskComponent {
       </form>
     </article>`.trim();
   }
-  bind() {
+  createListeners() {
     this._element.querySelector(`.card__form`)
       .addEventListener(`submit`, this._onSubmitButtonClick);
   }
 
-  unbind() {
+  removeListeners() {
     this._element.querySelector(`.card__form`)
       .removeEventListener(`click`, this._onSubmitButtonClick);
   }

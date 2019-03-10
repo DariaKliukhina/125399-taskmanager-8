@@ -1,7 +1,7 @@
 import makeFilter from './templates/make-filter.js';
 import {cards, allFilters} from './data/data.js';
-import Task from './task/task.js';
-import TaskEdit from './task/task-edit.js';
+import Task from './components/task/task.js';
+import TaskEdit from './components/task/task-edit.js';
 
 const filter = document.querySelector(`.main__filter`);
 const tasksContainer = document.querySelector(`.board__tasks`);
