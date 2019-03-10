@@ -1,7 +1,8 @@
-import {createElement} from './create-element.js';
+import TaskComponent from './../component/component.js';
 
-class Task {
+class Task extends TaskComponent {
   constructor(data) {
+    super();
     this._title = data.title;
     this._tags = data.tags;
     this._dueDate = data.dueDate;
@@ -11,14 +12,6 @@ class Task {
     this._color = data.color;
 
     this._dueDate = data.dueDate;
-
-    this._element = null;
-    this._state = {
-      isEdit: false,
-      isFavorite: false,
-      isDone: false,
-      isDeadline: false
-    };
 
     this._onEditButtonClick = this._onEditButtonClick.bind(this);
   }
@@ -31,10 +24,6 @@ class Task {
       this._onEdit();
     }
   }
-  get element() {
-    return this._element;
-  }
-
   set onEdit(fn) {
     this._onEdit = fn;
   }
@@ -111,22 +100,10 @@ class Task {
       .addEventListener(`click`, this._onEditButtonClick);
   }
 
-  render() {
-    this._element = createElement(this.template);
-    this.bind();
-    return this._element;
-  }
-
   unbind() {
     this._element.querySelector(`.card__btn--edit`)
       .removeEventListener(`click`, this._onEditButtonClick);
   }
-
-  unrender() {
-    this.unbind();
-    this._element = null;
-  }
-
 }
 
 export default Task;

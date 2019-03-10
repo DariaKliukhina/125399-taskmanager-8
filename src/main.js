@@ -1,7 +1,7 @@
-import makeFilter from './make-filter.js';
-import {cards, allFilters} from './data.js';
-import Task from './task.js';
-import TaskEdit from "./task-edit.js";
+import makeFilter from './templates/make-filter.js';
+import {cards, allFilters} from './data/data.js';
+import Task from './task/task.js';
+import TaskEdit from './task/task-edit.js';
 
 const filter = document.querySelector(`.main__filter`);
 const tasksContainer = document.querySelector(`.board__tasks`);
@@ -30,21 +30,21 @@ const addTask = (parent, currentElement) => {
 };
 
 const createCardElement = (parent, data) => {
-  const taskComponent = new Task(data);
-  const editTaskComponent = new TaskEdit(data);
-  taskComponent.onEdit = () => {
-    editTaskComponent.render();
-    parent.replaceChild(editTaskComponent.element, taskComponent.element);
-    taskComponent.unrender();
+  const task = new Task(data);
+  const editTask = new TaskEdit(data);
+  task.onEdit = () => {
+    editTask.render();
+    parent.replaceChild(editTask.element, task.element);
+    task.unrender();
   };
 
-  editTaskComponent.onSubmit = () => {
-    taskComponent.render();
-    parent.replaceChild(taskComponent.element, editTaskComponent.element);
-    editTaskComponent.unrender();
+  editTask.onSubmit = () => {
+    task.render();
+    parent.replaceChild(task.element, editTask.element);
+    editTask.unrender();
   };
 
-  addTask(parent, taskComponent);
+  addTask(parent, task);
 };
 
 const createAllCards = (array) => {
