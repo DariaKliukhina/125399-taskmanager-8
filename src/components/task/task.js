@@ -65,20 +65,12 @@ class Task extends TaskComponent {
           <div class="card__details">
             <div class="card__hashtag">
               <div class="card__hashtag-list">
-                 ${this._tags.map((it) => `<span class="card__hashtag-inner">
-                <input
-                  type="hidden"
-                  name="hashtag"
-                  value="repeat"
-                  class="card__hashtag-hidden-input"
-                />
-                <button type="button" class="card__hashtag-name">
-                  #${it}
-                </button>
-                <button type="button" class="card__hashtag-delete">
-                  delete
-                </button>
-              </span>`).join(``)}
+                ${(Array.from(this._tags).map((tag) => (`
+                  <span class="card__hashtag-inner">
+                    <input type="hidden" name="hashtag" value="${tag}" class="card__hashtag-hidden-input" />
+                    <button type="button" class="card__hashtag-name">#${tag}</button>
+                    <button type="button" class="card__hashtag-delete">delete</button>
+                  </span>`.trim()))).join(``)}
               </div>
            
             </div>
@@ -103,6 +95,13 @@ class Task extends TaskComponent {
   removeListeners() {
     this._element.querySelector(`.card__btn--edit`)
       .removeEventListener(`click`, this._onEditButtonClick);
+  }
+
+  update(data) {
+    this._title = data.title;
+    this._tags = data.tags;
+    this._color = data.color;
+    this._repeatingDays = data.repeatingDays;
   }
 }
 

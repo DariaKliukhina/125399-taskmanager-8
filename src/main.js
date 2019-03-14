@@ -37,10 +37,23 @@ const createCardElement = (parent, data) => {
     parent.replaceChild(editTask.element, task.element);
     task.unrender();
   };
+  //
+  // editTask.onSubmit = () => {
+  //   task.render();
+  //   parent.replaceChild(task.element, editTask.element);
+  //   editTask.unrender();
+  // };
 
-  editTask.onSubmit = () => {
+  editTask.onSubmit = (newObject) => {
+    task.title = newObject.title;
+    task.tags = newObject.tags;
+    task.color = newObject.color;
+    task.repeatingDays = newObject.repeatingDays;
+    task.dueDate = newObject.dueDate;
+
+    task.update(task);
     task.render();
-    parent.replaceChild(task.element, editTask.element);
+    tasksContainer.replaceChild(task.element, editTask.element);
     editTask.unrender();
   };
 
