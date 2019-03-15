@@ -210,11 +210,11 @@ class TaskEdit extends TaskComponent {
     this._element.querySelector(`.card__repeat-toggle`)
       .addEventListener(`click`, this._onChangeRepeated);
 
-    // if (this._state.isDate) {
-    //   flatpickr(`.card__date`, {altInput: true, altFormat: `j F`, dateFormat: `j F`});
-    //   flatpickr(`.card__time`, {enableTime: true, noCalendar: true, altInput: true, altFormat: `h:i K`, dateFormat: `h:i K`});
-    // }
+    if (this._state.isDate) {
+      flatpickr(`.card__date`, {altInput: true, altFormat: `j F`, dateFormat: `j F`});
+      flatpickr(`.card__time`, {enableTime: true, noCalendar: true, altInput: true, altFormat: `h:i K`, dateFormat: `h:i K`});
   }
+}
 
   removeListeners() {
     this._element.querySelector(`.card__form`)
@@ -238,10 +238,16 @@ class TaskEdit extends TaskComponent {
   static createMapper(target) {
     return {
       hashtag: (value) => target.tags.add(value),
-      text: (value) => target.title = value,
-      color: (value) => target.color = value,
-      repeat: (value) => target.repeatingDays[value] = true,
-      date: (value) => target.dueDate[value],
+      text: (value) => {
+        target.title = value;
+      },
+      color: (value) => {
+        target.color = value;
+      },
+      repeat: (value) => {
+        target.repeatingDays[value] = true;
+      },
+      date: (value) => target.dueDate[value]
     };
   }
 }
